@@ -6,8 +6,9 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras import backend as K
-from sklearn.datasets import load_breast_cancer
+from sklearn.datasets import load_breast_cancer, load_digits, load_diabetes, load_iris, load_wine
 from sklearn.model_selection import train_test_split
+from codecarbon import EmissionsTracker
 
 
 class SmoothnessOptimizer(AbstractOptimizer):
@@ -24,8 +25,33 @@ class SmoothnessOptimizer(AbstractOptimizer):
         """
         AbstractOptimizer.__init__(self, api_config)
 
-    def _get_smoothness(self, guess):
-        X, y = load_breast_cancer(return_X_y=True)
+    def _get_smoothness_reg(self, guess):
+        X, y = load_diabetes(return_X_y=True)
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=0.2)
+
+        model = Sequential()
+        model.add(Dense(guess['hidden_layer_sizes'], activation='relu'))
+        model.add(Dense(1, activation='relu'))
+        model.compile(optimizer='adam', loss='mse', metrics=['accuracy'])
+        model.fit(X_train, y_train, epochs=1, batch_size=guess['batch_size'])
+
+        func = K.function([model.layers[0].input], [model.layers[-2].output])
+        batch_size = guess['batch_size']
+        Kz = 0.
+        for i in range((len(X_train - 1) // batch_size + 1)):
+            start_i = i * batch_size
+            end_i = start_i + batch_size
+            xb = X_train[start_i:end_i]
+
+            al_1 = np.linalg.norm(func([xb]))
+            if activ > Kz:
+                Kz = activ
+
+        return Kz
+
+    def _get_smoothness_clf(self, guess):
+        X, y = load_wine(return_X_y=True)  # TODO: Change for each dataset
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2)
 
@@ -76,7 +102,7 @@ class SmoothnessOptimizer(AbstractOptimizer):
         """
         guesses = rs.suggest_dict([], [], self.api_config, n_suggestions=max(
             self.N_EVALS, n_suggestions * 3))
-        betas = [self._get_smoothness(guess) for guess in guesses]
+        betas = [self._get_smoothness_reg(guess) for guess in guesses]
 
         return [guesses[i] for i in sorted(range(len(betas)), key=lambda x: betas[x])[:n_suggestions]]
 
@@ -96,4 +122,5 @@ class SmoothnessOptimizer(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    experiment_main(SmoothnessOptimizer)
+    with EmissionsTracker() as tracker:
+        experiment_main(SmoothnessOptimizer)

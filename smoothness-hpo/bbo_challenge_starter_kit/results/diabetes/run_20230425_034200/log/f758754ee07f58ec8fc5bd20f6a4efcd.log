@@ -1,0 +1,284 @@
+running: {'--uuid': 'f758754ee07f58ec8fc5bd20f6a4efcd', '-db-root': '/home/ryedida/bbo_challenge_starter_kit/output', '--opt-root': '/home/ryedida/bbo_challenge_starter_kit/example_submissions', '--data-root': None, '--db': 'run_20230425_034200', '--opt': 'smoothness', '--data': 'diabetes', '--classifier': 'MLP-adam', '--metric': 'mae', '--calls': 15, '--suggestions': 1, '--jobs-file': None, '--verbose': False, 'dry_run': False, 'rev': 'a376313', 'opt_rev': 'x.x.x'}
+cmd: python smoothness/optimizer.py -c MLP-adam -d diabetes -o smoothness -u f758754ee07f58ec8fc5bd20f6a4efcd -m mae -n 15 -p 1 -dir /home/ryedida/bbo_challenge_starter_kit/output -b run_20230425_034200
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:605: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:605: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:605: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:686: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn't converged yet.
+  warnings.warn(
+
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:605: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:686: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn't converged yet.
+  warnings.warn(
+
+computed signature: ([{'alpha': 0.019628224813442792, 'batch_size': 182, 'beta_1': 0.9410202200271762, 'beta_2': 0.9998021557676793, 'epsilon': 1.8662266976518e-08, 'hidden_layer_sizes': 147, 'learning_rate_init': 0.0005627932047415167, 'tol': 0.03690557729213761, 'validation_fraction': 0.8846827852548593}, {'alpha': 0.0019982467392329444, 'batch_size': 200, 'beta_1': 0.919111482530466, 'beta_2': 0.9998488260436156, 'epsilon': 5.981221901152555e-07, 'hidden_layer_sizes': 61, 'learning_rate_init': 2.2310905607443014e-05, 'tol': 1.2046852412030316e-05, 'validation_fraction': 0.8117896445826539}, {'alpha': 0.46659545670218433, 'batch_size': 219, 'beta_1': 0.9889789783750891, 'beta_2': 0.9999896868093284, 'epsilon': 2.4234724484675948e-08, 'hidden_layer_sizes': 167, 'learning_rate_init': 2.972334644335654e-05, 'tol': 0.0036281404040243792, 'validation_fraction': 0.17260651658522078}, {'alpha': 4.656005689076002, 'batch_size': 135, 'beta_1': 0.870503881627747, 'beta_2': 0.9948873266941017, 'epsilon': 2.1023308743480125e-07, 'hidden_layer_sizes': 118, 'learning_rate_init': 0.0018781738757161913, 'tol': 1.1889379831773004e-05, 'validation_fraction': 0.6264327093752792}, {'alpha': 0.04705159350400542, 'batch_size': 158, 'beta_1': 0.9870884262730957, 'beta_2': 0.9999596874382349, 'epsilon': 1.1981845126013875e-08, 'hidden_layer_sizes': 116, 'learning_rate_init': 0.00617340520407431, 'tol': 1.741413418158619e-05, 'validation_fraction': 0.6754299026638921}], [151.4971925380264, 151.42763539278994, 151.47026299046811, 136.86202504264318, 75.2055865763391])
+Signature errors:
+                                  0             1             2         3         4       max
+MLP-adam_diabetes_mae  1.919244e-08  6.198704e-08  7.624578e-09  0.000007  0.000034  0.000034
+max                    1.919244e-08  6.198704e-08  7.624578e-09  0.000007  0.000034  0.000034
+starting sklearn study smoothness MLP-adam diabetes mae 15 1
+with data root: None
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.494375 iter 0 next_points [{'alpha': 5.7913893361607265e-05, 'batch_size': 108, 'beta_1': 0.8865711622956497, 'beta_2': 0.999936053023167, 'epsilon': 1.495380749532669e-08, 'hidden_layer_sizes': 174, 'learning_rate_init': 0.011695514073213606, 'tol': 3.7176674756076206e-05, 'validation_fraction': 0.36631507226622445}]
+function_evaluation time 1.124860 value 44.203472 suggestion {'alpha': 5.7913893361607265e-05, 'batch_size': 108, 'beta_1': 0.8865711622956497, 'beta_2': 0.999936053023167, 'epsilon': 1.495380749532669e-08, 'hidden_layer_sizes': 174, 'learning_rate_init': 0.011695514073213606, 'tol': 3.7176674756076206e-05, 'validation_fraction': 0.36631507226622445}
+observation time 0.000006, current best 44.203472 at iter 0
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.326282 iter 1 next_points [{'alpha': 0.00010163924641554519, 'batch_size': 135, 'beta_1': 0.7358608868354992, 'beta_2': 0.9737751277955841, 'epsilon': 1.8849510037133762e-07, 'hidden_layer_sizes': 52, 'learning_rate_init': 0.026847141942192367, 'tol': 0.0056694130623212435, 'validation_fraction': 0.23312456630719824}]
+function_evaluation time 0.172791 value 50.489892 suggestion {'alpha': 0.00010163924641554519, 'batch_size': 135, 'beta_1': 0.7358608868354992, 'beta_2': 0.9737751277955841, 'epsilon': 1.8849510037133762e-07, 'hidden_layer_sizes': 52, 'learning_rate_init': 0.026847141942192367, 'tol': 0.0056694130623212435, 'validation_fraction': 0.23312456630719824}
+observation time 0.000005, current best 44.203472 at iter 1
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.328866 iter 2 next_points [{'alpha': 3.953945877221443e-05, 'batch_size': 43, 'beta_1': 0.8722200319110313, 'beta_2': 0.9136759458029021, 'epsilon': 3.906345788034248e-08, 'hidden_layer_sizes': 75, 'learning_rate_init': 0.036787172637439546, 'tol': 0.028804703886379325, 'validation_fraction': 0.5775044914147387}]
+function_evaluation time 0.201230 value 49.363357 suggestion {'alpha': 3.953945877221443e-05, 'batch_size': 43, 'beta_1': 0.8722200319110313, 'beta_2': 0.9136759458029021, 'epsilon': 3.906345788034248e-08, 'hidden_layer_sizes': 75, 'learning_rate_init': 0.036787172637439546, 'tol': 0.028804703886379325, 'validation_fraction': 0.5775044914147387}
+observation time 0.000005, current best 44.203472 at iter 2
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.327041 iter 3 next_points [{'alpha': 1.1866378490480896e-05, 'batch_size': 142, 'beta_1': 0.5467186657416322, 'beta_2': 0.9439267207180361, 'epsilon': 1.278593636160417e-09, 'hidden_layer_sizes': 173, 'learning_rate_init': 0.00012995928368900647, 'tol': 0.00028846287803275785, 'validation_fraction': 0.6987025651493292}]
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:605: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+function_evaluation time 0.061235 value 151.660760 suggestion {'alpha': 1.1866378490480896e-05, 'batch_size': 142, 'beta_1': 0.5467186657416322, 'beta_2': 0.9439267207180361, 'epsilon': 1.278593636160417e-09, 'hidden_layer_sizes': 173, 'learning_rate_init': 0.00012995928368900647, 'tol': 0.00028846287803275785, 'validation_fraction': 0.6987025651493292}
+observation time 0.000006, current best 44.203472 at iter 3
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.325946 iter 4 next_points [{'alpha': 1.2330097706306384e-05, 'batch_size': 44, 'beta_1': 0.6944371710806974, 'beta_2': 0.9999915540792904, 'epsilon': 2.147340408000092e-07, 'hidden_layer_sizes': 90, 'learning_rate_init': 0.050434822250981254, 'tol': 0.00013674919557449177, 'validation_fraction': 0.7597887465833071}]
+function_evaluation time 0.387362 value 44.767325 suggestion {'alpha': 1.2330097706306384e-05, 'batch_size': 44, 'beta_1': 0.6944371710806974, 'beta_2': 0.9999915540792904, 'epsilon': 2.147340408000092e-07, 'hidden_layer_sizes': 90, 'learning_rate_init': 0.050434822250981254, 'tol': 0.00013674919557449177, 'validation_fraction': 0.7597887465833071}
+observation time 0.000006, current best 44.203472 at iter 4
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.328201 iter 5 next_points [{'alpha': 0.00014140342787461274, 'batch_size': 53, 'beta_1': 0.7044513585064084, 'beta_2': 0.9999926913773749, 'epsilon': 2.10024199313248e-09, 'hidden_layer_sizes': 113, 'learning_rate_init': 0.08211407144730964, 'tol': 0.00011865502641279843, 'validation_fraction': 0.8658208502971697}]
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:605: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+function_evaluation time 0.248714 value 45.074269 suggestion {'alpha': 0.00014140342787461274, 'batch_size': 53, 'beta_1': 0.7044513585064084, 'beta_2': 0.9999926913773749, 'epsilon': 2.10024199313248e-09, 'hidden_layer_sizes': 113, 'learning_rate_init': 0.08211407144730964, 'tol': 0.00011865502641279843, 'validation_fraction': 0.8658208502971697}
+observation time 0.000006, current best 44.203472 at iter 5
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.335268 iter 6 next_points [{'alpha': 0.00032497972480448876, 'batch_size': 83, 'beta_1': 0.9559724940952223, 'beta_2': 0.9984125627633611, 'epsilon': 9.825674081992718e-07, 'hidden_layer_sizes': 194, 'learning_rate_init': 0.00024192232412889914, 'tol': 7.935782265190294e-05, 'validation_fraction': 0.840509755382669}]
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:605: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:686: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn't converged yet.
+  warnings.warn(
+
+function_evaluation time 0.787048 value 150.610111 suggestion {'alpha': 0.00032497972480448876, 'batch_size': 83, 'beta_1': 0.9559724940952223, 'beta_2': 0.9984125627633611, 'epsilon': 9.825674081992718e-07, 'hidden_layer_sizes': 194, 'learning_rate_init': 0.00024192232412889914, 'tol': 7.935782265190294e-05, 'validation_fraction': 0.840509755382669}
+observation time 0.000005, current best 44.203472 at iter 6
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.464682 iter 7 next_points [{'alpha': 7.969288881769607e-05, 'batch_size': 153, 'beta_1': 0.9807413193411212, 'beta_2': 0.9997427614440622, 'epsilon': 4.3374273443019824e-08, 'hidden_layer_sizes': 75, 'learning_rate_init': 0.0029604039858351257, 'tol': 0.00010345120780558677, 'validation_fraction': 0.5108583638805878}]
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:686: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn't converged yet.
+  warnings.warn(
+
+function_evaluation time 0.726258 value 134.830560 suggestion {'alpha': 7.969288881769607e-05, 'batch_size': 153, 'beta_1': 0.9807413193411212, 'beta_2': 0.9997427614440622, 'epsilon': 4.3374273443019824e-08, 'hidden_layer_sizes': 75, 'learning_rate_init': 0.0029604039858351257, 'tol': 0.00010345120780558677, 'validation_fraction': 0.5108583638805878}
+observation time 0.000006, current best 44.203472 at iter 7
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.319892 iter 8 next_points [{'alpha': 1.4574900544040753e-05, 'batch_size': 123, 'beta_1': 0.5335128272432512, 'beta_2': 0.9997750076802548, 'epsilon': 3.035555729967678e-08, 'hidden_layer_sizes': 199, 'learning_rate_init': 0.0011568889700231365, 'tol': 0.023162397059984914, 'validation_fraction': 0.7264234414521059}]
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:605: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+function_evaluation time 0.061727 value 151.231400 suggestion {'alpha': 1.4574900544040753e-05, 'batch_size': 123, 'beta_1': 0.5335128272432512, 'beta_2': 0.9997750076802548, 'epsilon': 3.035555729967678e-08, 'hidden_layer_sizes': 199, 'learning_rate_init': 0.0011568889700231365, 'tol': 0.023162397059984914, 'validation_fraction': 0.7264234414521059}
+observation time 0.000006, current best 44.203472 at iter 8
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.324647 iter 9 next_points [{'alpha': 0.00522214114164338, 'batch_size': 42, 'beta_1': 0.5891144552802752, 'beta_2': 0.999986005504272, 'epsilon': 2.09268179488572e-09, 'hidden_layer_sizes': 116, 'learning_rate_init': 0.0032797869923920316, 'tol': 0.00012960780858823734, 'validation_fraction': 0.7124532455112854}]
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:686: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn't converged yet.
+  warnings.warn(
+
+function_evaluation time 0.929526 value 55.933153 suggestion {'alpha': 0.00522214114164338, 'batch_size': 42, 'beta_1': 0.5891144552802752, 'beta_2': 0.999986005504272, 'epsilon': 2.09268179488572e-09, 'hidden_layer_sizes': 116, 'learning_rate_init': 0.0032797869923920316, 'tol': 0.00012960780858823734, 'validation_fraction': 0.7124532455112854}
+observation time 0.000006, current best 44.203472 at iter 9
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.321634 iter 10 next_points [{'alpha': 5.0501658031078706e-05, 'batch_size': 150, 'beta_1': 0.687500297486258, 'beta_2': 0.9999442815764726, 'epsilon': 1.322665160573063e-09, 'hidden_layer_sizes': 119, 'learning_rate_init': 9.012402817396817e-05, 'tol': 0.0004527466906077773, 'validation_fraction': 0.7680518370966299}]
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:605: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+function_evaluation time 0.053021 value 151.567178 suggestion {'alpha': 5.0501658031078706e-05, 'batch_size': 150, 'beta_1': 0.687500297486258, 'beta_2': 0.9999442815764726, 'epsilon': 1.322665160573063e-09, 'hidden_layer_sizes': 119, 'learning_rate_init': 9.012402817396817e-05, 'tol': 0.0004527466906077773, 'validation_fraction': 0.7680518370966299}
+observation time 0.000006, current best 44.203472 at iter 10
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.318490 iter 11 next_points [{'alpha': 1.2017912359241336, 'batch_size': 166, 'beta_1': 0.8557198062424312, 'beta_2': 0.9715301072305053, 'epsilon': 2.1919020854874916e-07, 'hidden_layer_sizes': 166, 'learning_rate_init': 0.036783548136966555, 'tol': 0.0036805264110416954, 'validation_fraction': 0.7674080178826491}]
+/home/ryedida/.local/lib/python3.9/site-packages/sklearn/neural_network/_multilayer_perceptron.py:605: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+function_evaluation time 0.253007 value 49.765022 suggestion {'alpha': 1.2017912359241336, 'batch_size': 166, 'beta_1': 0.8557198062424312, 'beta_2': 0.9715301072305053, 'epsilon': 2.1919020854874916e-07, 'hidden_layer_sizes': 166, 'learning_rate_init': 0.036783548136966555, 'tol': 0.0036805264110416954, 'validation_fraction': 0.7674080178826491}
+observation time 0.000006, current best 44.203472 at iter 11
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.315675 iter 12 next_points [{'alpha': 5.58559983162628e-05, 'batch_size': 131, 'beta_1': 0.759434069872155, 'beta_2': 0.9999986981417692, 'epsilon': 1.1471439933901435e-08, 'hidden_layer_sizes': 167, 'learning_rate_init': 5.577826728845686e-05, 'tol': 0.0004949557565996424, 'validation_fraction': 0.3421647129621703}]
+function_evaluation time 0.088219 value 151.543636 suggestion {'alpha': 5.58559983162628e-05, 'batch_size': 131, 'beta_1': 0.759434069872155, 'beta_2': 0.9999986981417692, 'epsilon': 1.1471439933901435e-08, 'hidden_layer_sizes': 167, 'learning_rate_init': 5.577826728845686e-05, 'tol': 0.0004949557565996424, 'validation_fraction': 0.3421647129621703}
+observation time 0.000006, current best 44.203472 at iter 12
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.317637 iter 13 next_points [{'alpha': 0.5472198524772184, 'batch_size': 40, 'beta_1': 0.9736565550908574, 'beta_2': 0.9999907516263592, 'epsilon': 3.5402231219444124e-07, 'hidden_layer_sizes': 126, 'learning_rate_init': 0.0054309709518691966, 'tol': 0.06681322197799466, 'validation_fraction': 0.21007193583574674}]
+function_evaluation time 0.349561 value 54.394427 suggestion {'alpha': 0.5472198524772184, 'batch_size': 40, 'beta_1': 0.9736565550908574, 'beta_2': 0.9999907516263592, 'epsilon': 3.5402231219444124e-07, 'hidden_layer_sizes': 126, 'learning_rate_init': 0.0054309709518691966, 'tol': 0.06681322197799466, 'validation_fraction': 0.21007193583574674}
+observation time 0.000007, current best 44.203472 at iter 13
+Failure in optimizer suggest. Falling back to random search.
+name 'activ' is not defined
+Traceback (most recent call last):
+  File "/home/ryedida/.local/lib/python3.9/site-packages/bayesmark/experiment.py", line 126, in run_study
+    next_points = optimizer.suggest(n_suggestions)
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in suggest
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 105, in <listcomp>
+    betas = [self._get_smoothness_reg(guess) for guess in guesses]
+  File "/home/ryedida/bbo_challenge_starter_kit/example_submissions/smoothness/optimizer.py", line 48, in _get_smoothness_reg
+    if activ > Kz:
+NameError: name 'activ' is not defined
+suggestion time taken 0.319391 iter 14 next_points [{'alpha': 0.0007833430646455393, 'batch_size': 120, 'beta_1': 0.7657820754994273, 'beta_2': 0.9776531150768601, 'epsilon': 9.123686455777257e-07, 'hidden_layer_sizes': 52, 'learning_rate_init': 0.03698647251269588, 'tol': 6.241184937252035e-05, 'validation_fraction': 0.19197185723763452}]
+function_evaluation time 0.377831 value 44.799257 suggestion {'alpha': 0.0007833430646455393, 'batch_size': 120, 'beta_1': 0.7657820754994273, 'beta_2': 0.9776531150768601, 'epsilon': 9.123686455777257e-07, 'hidden_layer_sizes': 52, 'learning_rate_init': 0.03698647251269588, 'tol': 6.241184937252035e-05, 'validation_fraction': 0.19197185723763452}
+observation time 0.000005, current best 44.203472 at iter 14
+saving meta data: {'args': {'--uuid': 'f758754ee07f58ec8fc5bd20f6a4efcd', '-db-root': '/home/ryedida/bbo_challenge_starter_kit/output', '--opt-root': '/home/ryedida/bbo_challenge_starter_kit/example_submissions', '--data-root': None, '--db': 'run_20230425_034200', '--opt': 'smoothness', '--data': 'diabetes', '--classifier': 'MLP-adam', '--metric': 'mae', '--calls': 15, '--suggestions': 1, '--jobs-file': None, '--verbose': False, 'dry_run': False, 'rev': 'a376313', 'opt_rev': 'x.x.x'}, 'signature': ([{'alpha': 0.019628224813442792, 'batch_size': 182, 'beta_1': 0.9410202200271762, 'beta_2': 0.9998021557676793, 'epsilon': 1.8662266976518e-08, 'hidden_layer_sizes': 147, 'learning_rate_init': 0.0005627932047415167, 'tol': 0.03690557729213761, 'validation_fraction': 0.8846827852548593}, {'alpha': 0.0019982467392329444, 'batch_size': 200, 'beta_1': 0.919111482530466, 'beta_2': 0.9998488260436156, 'epsilon': 5.981221901152555e-07, 'hidden_layer_sizes': 61, 'learning_rate_init': 2.2310905607443014e-05, 'tol': 1.2046852412030316e-05, 'validation_fraction': 0.8117896445826539}, {'alpha': 0.46659545670218433, 'batch_size': 219, 'beta_1': 0.9889789783750891, 'beta_2': 0.9999896868093284, 'epsilon': 2.4234724484675948e-08, 'hidden_layer_sizes': 167, 'learning_rate_init': 2.972334644335654e-05, 'tol': 0.0036281404040243792, 'validation_fraction': 0.17260651658522078}, {'alpha': 4.656005689076002, 'batch_size': 135, 'beta_1': 0.870503881627747, 'beta_2': 0.9948873266941017, 'epsilon': 2.1023308743480125e-07, 'hidden_layer_sizes': 118, 'learning_rate_init': 0.0018781738757161913, 'tol': 1.1889379831773004e-05, 'validation_fraction': 0.6264327093752792}, {'alpha': 0.04705159350400542, 'batch_size': 158, 'beta_1': 0.9870884262730957, 'beta_2': 0.9999596874382349, 'epsilon': 1.1981845126013875e-08, 'hidden_layer_sizes': 116, 'learning_rate_init': 0.00617340520407431, 'tol': 1.741413418158619e-05, 'validation_fraction': 0.6754299026638921}], [151.4971925380264, 151.42763539278994, 151.47026299046811, 136.86202504264318, 75.2055865763391])}
+saving results
+saving timing
+saving suggest log
+done
