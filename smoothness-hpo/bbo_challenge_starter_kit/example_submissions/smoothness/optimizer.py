@@ -6,6 +6,7 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras import backend as K
+from tensorflow.keras.utils import to_categorical
 from sklearn.datasets import load_breast_cancer, load_digits, load_diabetes, load_iris, load_wine
 from sklearn.model_selection import train_test_split
 from codecarbon import EmissionsTracker
@@ -33,7 +34,7 @@ class SmoothnessOptimizer(AbstractOptimizer):
         model = Sequential()
         model.add(Dense(guess['hidden_layer_sizes'], activation='relu'))
         model.add(Dense(1, activation='relu'))
-        model.compile(optimizer='adam', loss='mse', metrics=['accuracy'])
+        model.compile(optimizer='adam', loss='mse')
         model.fit(X_train, y_train, epochs=1, batch_size=guess['batch_size'])
 
         func = K.function([model.layers[0].input], [model.layers[-2].output])
@@ -45,21 +46,22 @@ class SmoothnessOptimizer(AbstractOptimizer):
             xb = X_train[start_i:end_i]
 
             al_1 = np.linalg.norm(func([xb]))
-            if activ > Kz:
-                Kz = activ
+            if al_1 > Kz:
+                Kz = al_1
 
         return Kz
 
     def _get_smoothness_clf(self, guess):
         X, y = load_wine(return_X_y=True)  # TODO: Change for each dataset
+        n_class = 10
+        y = to_categorical(y, n_class)
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2)
 
         model = Sequential()
         model.add(Dense(guess['hidden_layer_sizes'], activation='relu'))
-        model.add(Dense(1, activation='sigmoid'))
-        model.compile(optimizer='adam',
-                      loss='binary_crossentropy', metrics=['accuracy'])
+        model.add(Dense(n_class, activation='softmax'))
+        model.compile(optimizer='adam', loss='categorical_crossentropy')
         model.fit(X_train, y_train, epochs=1, batch_size=guess['batch_size'])
 
         func = K.function([model.layers[0].input], [model.layers[-2].output])
@@ -83,7 +85,7 @@ class SmoothnessOptimizer(AbstractOptimizer):
         if Kw == 0:
             return 0.
 
-        return Kz / Kw
+        return (n_class - 1) / (n_class * len(y_train)) * Kz / Kw
 
     def suggest(self, n_suggestions=1):
         """Get suggestion.
