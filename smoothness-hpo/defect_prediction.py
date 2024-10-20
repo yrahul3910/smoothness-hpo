@@ -16,7 +16,7 @@ hpo_space = {
 }
 
 file_number = os.getenv('SLURM_JOB_ID') or random.randint(1, 10000)
-for filename in defect_file_wang_dic.keys():
+for filename in defect_file_dic.keys():
     file = open(f'runs-{file_number}.txt', 'a')
     print(f'{filename}:', file=file)
 
