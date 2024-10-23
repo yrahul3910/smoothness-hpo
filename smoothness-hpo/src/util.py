@@ -5,6 +5,7 @@ import pandas as pd
 from scipy.spatial import KDTree
 from scipy.stats import mode
 from raise_utils.transforms import Transform
+from raise_utils.transforms.remove_labels import remove_labels
 from raise_utils.learners import Autoencoder
 from raise_utils.data import Data, DataLoader
 from raise_utils.hooks import Hook
@@ -14,11 +15,6 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
 from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Dense
-import pyximport
-
-pyximport.install()
-
-from .remove_labels import remove_labels
 
 
 # Dataset filenames
