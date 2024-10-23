@@ -1,4 +1,5 @@
 import random
+from ConfigSpace import ConfigurationSpace
 import numpy as np
 import pandas as pd
 from scipy.spatial import KDTree
@@ -9,7 +10,6 @@ from raise_utils.data import Data, DataLoader
 from raise_utils.hooks import Hook
 from raise_utils.metrics import ClassificationMetrics
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
 from tensorflow.keras import backend as K
@@ -35,7 +35,7 @@ defect_file_dic = {'ivy':     ['ivy-1.1.csv', 'ivy-1.4.csv', 'ivy-2.0.csv'],
             }
 
 
-def load_defect_data(dataset: str):
+def load_defect_data(dataset: str) -> Data:
     def _binarize(x, y): y[y > 1] = 1
     base_path = '../DODGE Data/defect/'
     dataset = DataLoader.from_files(
@@ -45,7 +45,7 @@ def load_defect_data(dataset: str):
 
 
 def run_experiment(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample: bool, smooth: bool, n_units: int,
-    n_layers: int, preprocessor: str) -> None:
+    n_layers: int, preprocessor: str) -> list[float]:
     print('[run_experiment] Getting model')
     model, data = get_model(data, n_class, wfo, smote, ultrasample, smooth, n_units, n_layers, preprocessor)
 
@@ -65,7 +65,7 @@ def run_experiment(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample
         data.y_test = np.argmax(data.y_test, axis=1)
 
     metrics = ClassificationMetrics(data.y_test, y_pred)
-    metrics.add_metrics(['accuracy'])
+    metrics.add_metrics(['f1', 'recall', 'pf', 'prec'])
     return metrics.get_metrics()
 
 
@@ -128,6 +128,10 @@ def get_many_random_hyperparams(options: dict, n: int) -> list:
     for _ in range(n):
         hyperparams.append(get_random_hyperparams(options))
     return hyperparams
+
+
+def hp_space_to_configspace(hp_space: dict) -> ConfigurationSpace:
+    return ConfigurationSpace(hp_space)   
 
 
 def remove_labels_legacy(data: Data) -> Data:

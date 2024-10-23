@@ -26,3 +26,11 @@ Alternatively,
 cythonize -i remove_labels.pyx
 ```
 
+## Troubleshooting
+
+If you have trouble running the code, you may find the below useful.
+
+### Cython errors on mismatched dtype float and double
+
+This happens when the `remove_labels.pyx` in `src/` is different from the one used by the `raise-utils` installation. Please copy over the one from `src/` to `site-packages` and compile both.
+
