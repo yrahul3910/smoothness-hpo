@@ -61,7 +61,7 @@ def run_experiment(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample
         data.y_test = np.argmax(data.y_test, axis=1)
 
     metrics = ClassificationMetrics(data.y_test, y_pred)
-    metrics.add_metrics(['f1', 'recall', 'pf', 'prec'])
+    metrics.add_metrics(['accuracy'])
     return metrics.get_metrics()
 
 
@@ -280,8 +280,8 @@ def split_data(filename: str, data: Data, n_classes: int) -> Data:
             data.y_test < 6, 4, np.where(data.y_test < 8, 5, np.where(data.y_test < 11, 6, np.where(data.y_test < 21, 7, 8))))))))
 
     if n_classes > 2:
-        data.y_train = to_categorical(data.y_train, num_classes=n_classes, dtype=int)
-        data.y_test = to_categorical(data.y_test, num_classes=n_classes, dtype=int)
+        data.y_train = to_categorical(data.y_train, num_classes=n_classes).astype(int)
+        data.y_test = to_categorical(data.y_test, num_classes=n_classes).astype(int)
 
     return data
 
