@@ -26,4 +26,3 @@ Alternatively,
 cythonize -i remove_labels.pyx
 ```
 
-
