@@ -148,7 +148,7 @@ def run_all_experiments():
                 n_workers=1,
                 output_path="./tmp"
             )
-            trajectory, runtime, history = dehb.run(fevals=30)
+            dehb.run(fevals=50)
 
         print('Median results:', file=file)
         print(np.median(results, axis=0), file=file)
