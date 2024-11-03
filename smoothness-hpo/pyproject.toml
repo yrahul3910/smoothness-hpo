@@ -13,3 +13,30 @@ dependencies = [
     "setuptools>=65.0.2",
     "tensorflow>=2.17.0",
 ]
+
+[tool.ruff]
+exclude = [
+    ".DS_Store",
+    ".git",
+    "__pycache__",
+    ".mypy_cache",
+    ".ruff_cache"
+]
+
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+preview = true
+select = ["E", "W", "F", "S", "B", "I001", "RUF002", "RUF100", "RUF013", "RUF010", "RUF200"]
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+lines-between-types = 1
+section-order = ["future", "standard-library", "first-party", "local-folder", "third-party"]
+
+[tool.ruff.flake8-quotes]
+inline-quotes = "single"
+
+[tool.ruff.pycodestyle]
+max-doc-length = 120
