@@ -1,0 +1,533 @@
+running: {'--uuid': '70c46e8e48125c7d9eed590b3c36c596', '-db-root': '/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/output', '--opt-root': '/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions', '--data-root': None, '--db': 'run_20241104_045201', '--opt': 'dehb', '--data': 'digits', '--classifier': 'MLP-adam', '--metric': 'acc', '--calls': 15, '--suggestions': 1, '--jobs-file': None, '--verbose': False, 'dry_run': False, 'rev': 'a376313', 'opt_rev': '0.0.8'}
+cmd: python dehb/optimizer.py -c MLP-adam -d digits -o dehb -u 70c46e8e48125c7d9eed590b3c36c596 -m acc -n 15 -p 1 -dir /home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/output -b run_20241104_045201
+/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:608: UserWarning: Got `batch_size` less than 1 or larger than sample size. It is going to be clipped
+  warnings.warn(
+
+/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:690: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn't converged yet.
+  warnings.warn(
+
+computed signature: ([{'alpha': 0.019628224813442792, 'batch_size': 182, 'beta_1': 0.9410202200271762, 'beta_2': 0.9998021557676793, 'epsilon': 1.8662266976518e-08, 'hidden_layer_sizes': 147, 'learning_rate_init': 0.0005627932047415167, 'tol': 0.03690557729213761, 'validation_fraction': 0.8846827852548593}, {'alpha': 0.0019982467392329444, 'batch_size': 200, 'beta_1': 0.919111482530466, 'beta_2': 0.9998488260436156, 'epsilon': 5.981221901152555e-07, 'hidden_layer_sizes': 61, 'learning_rate_init': 2.2310905607443014e-05, 'tol': 1.2046852412030316e-05, 'validation_fraction': 0.8117896445826539}, {'alpha': 0.46659545670218433, 'batch_size': 219, 'beta_1': 0.9889789783750891, 'beta_2': 0.9999896868093284, 'epsilon': 2.4234724484675948e-08, 'hidden_layer_sizes': 167, 'learning_rate_init': 2.972334644335654e-05, 'tol': 0.0036281404040243792, 'validation_fraction': 0.17260651658522078}, {'alpha': 4.656005689076002, 'batch_size': 135, 'beta_1': 0.870503881627747, 'beta_2': 0.9948873266941017, 'epsilon': 2.1023308743480125e-07, 'hidden_layer_sizes': 118, 'learning_rate_init': 0.0018781738757161913, 'tol': 1.1889379831773004e-05, 'validation_fraction': 0.6264327093752792}, {'alpha': 0.04705159350400542, 'batch_size': 158, 'beta_1': 0.9870884262730957, 'beta_2': 0.9999596874382349, 'epsilon': 1.1981845126013875e-08, 'hidden_layer_sizes': 116, 'learning_rate_init': 0.00617340520407431, 'tol': 1.741413418158619e-05, 'validation_fraction': 0.6754299026638921}], [-0.21081107239643826, -0.1295489740611692, -0.27999177313201706, -0.9422522260936896, -0.9332050909794812])
+/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/signatures.py:85: RuntimeWarning: Signature diverged on MLP-adam_digits_acc betwen [-0.2181506  -0.12954897 -0.42701514 -0.94997127 -0.93320509] and [-0.21081107 -0.11575494 -0.27999177 -0.94225223 -0.93253861]
+  warnings.warn(
+
+Signature errors:
+                           0         1         2         3         4       max
+MLP-adam_digits_acc  0.00734  0.013794  0.147023  0.007719  0.000666  0.147023
+max                  0.00734  0.013794  0.147023  0.007719  0.000666  0.147023
+starting sklearn study dehb MLP-adam digits acc 15 1
+with data root: None
+suggestion time taken 0.001415 iter 0 next_points [Configuration(values={
+  'alpha': 0.0010699431846,
+  'batch_size': 161,
+  'beta_1': 0.8223670693068,
+  'beta_2': 0.9846310041877,
+  'epsilon': 2.0301e-09,
+  'hidden_layer_sizes': 161,
+  'learning_rate_init': 0.0223449266316,
+  'tol': 0.0011202387031,
+  'validation_fraction': 0.2920074959135,
+})]
+function_evaluation time 2.525391 value -0.961728 suggestion Configuration(values={
+  'alpha': 0.0010699431846,
+  'batch_size': 161,
+  'beta_1': 0.8223670693068,
+  'beta_2': 0.9846310041877,
+  'epsilon': 2.0301e-09,
+  'hidden_layer_sizes': 161,
+  'learning_rate_init': 0.0223449266316,
+  'tol': 0.0011202387031,
+  'validation_fraction': 0.2920074959135,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.001214, current best -0.961728 at iter 0
+suggestion time taken 0.001323 iter 1 next_points [Configuration(values={
+  'alpha': 1.6567121960602,
+  'batch_size': 87,
+  'beta_1': 0.7733989294075,
+  'beta_2': 0.9888884006506,
+  'epsilon': 2.0297e-09,
+  'hidden_layer_sizes': 160,
+  'learning_rate_init': 0.0178943829203,
+  'tol': 0.0001572888364,
+  'validation_fraction': 0.1950603179179,
+})]
+function_evaluation time 3.353899 value -0.963809 suggestion Configuration(values={
+  'alpha': 1.6567121960602,
+  'batch_size': 87,
+  'beta_1': 0.7733989294075,
+  'beta_2': 0.9888884006506,
+  'epsilon': 2.0297e-09,
+  'hidden_layer_sizes': 160,
+  'learning_rate_init': 0.0178943829203,
+  'tol': 0.0001572888364,
+  'validation_fraction': 0.1950603179179,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000717, current best -0.963809 at iter 1
+suggestion time taken 0.001462 iter 2 next_points [Configuration(values={
+  'alpha': 0.0076717923887,
+  'batch_size': 241,
+  'beta_1': 0.9603916597255,
+  'beta_2': 0.9270471587602,
+  'epsilon': 4.4693e-09,
+  'hidden_layer_sizes': 122,
+  'learning_rate_init': 0.0019628576344,
+  'tol': 0.0002305629003,
+  'validation_fraction': 0.1030956923308,
+})]
+function_evaluation time 2.658733 value -0.961036 suggestion Configuration(values={
+  'alpha': 0.0076717923887,
+  'batch_size': 241,
+  'beta_1': 0.9603916597255,
+  'beta_2': 0.9270471587602,
+  'epsilon': 4.4693e-09,
+  'hidden_layer_sizes': 122,
+  'learning_rate_init': 0.0019628576344,
+  'tol': 0.0002305629003,
+  'validation_fraction': 0.1030956923308,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000599, current best -0.963809 at iter 2
+suggestion time taken 0.001281 iter 3 next_points [Configuration(values={
+  'alpha': 0.0531316322779,
+  'batch_size': 190,
+  'beta_1': 0.899964692006,
+  'beta_2': 0.9957432929352,
+  'epsilon': 3.736343e-07,
+  'hidden_layer_sizes': 90,
+  'learning_rate_init': 0.0794170534955,
+  'tol': 0.084139610519,
+  'validation_fraction': 0.7014281319437,
+})]
+function_evaluation time 0.460530 value -0.392388 suggestion Configuration(values={
+  'alpha': 0.0531316322779,
+  'batch_size': 190,
+  'beta_1': 0.899964692006,
+  'beta_2': 0.9957432929352,
+  'epsilon': 3.736343e-07,
+  'hidden_layer_sizes': 90,
+  'learning_rate_init': 0.0794170534955,
+  'tol': 0.084139610519,
+  'validation_fraction': 0.7014281319437,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000657, current best -0.963809 at iter 3
+suggestion time taken 0.001325 iter 4 next_points [Configuration(values={
+  'alpha': 0.0008394615349,
+  'batch_size': 82,
+  'beta_1': 0.7459963802115,
+  'beta_2': 0.9757067131272,
+  'epsilon': 3.729302e-07,
+  'hidden_layer_sizes': 81,
+  'learning_rate_init': 0.0099278308454,
+  'tol': 0.0762135020936,
+  'validation_fraction': 0.246058169514,
+})]
+function_evaluation time 1.249714 value -0.961031 suggestion Configuration(values={
+  'alpha': 0.0008394615349,
+  'batch_size': 82,
+  'beta_1': 0.7459963802115,
+  'beta_2': 0.9757067131272,
+  'epsilon': 3.729302e-07,
+  'hidden_layer_sizes': 81,
+  'learning_rate_init': 0.0099278308454,
+  'tol': 0.0762135020936,
+  'validation_fraction': 0.246058169514,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000619, current best -0.963809 at iter 4
+suggestion time taken 0.001437 iter 5 next_points [Configuration(values={
+  'alpha': 7.49797373e-05,
+  'batch_size': 166,
+  'beta_1': 0.6171168663907,
+  'beta_2': 0.9591594344464,
+  'epsilon': 5.20239e-08,
+  'hidden_layer_sizes': 86,
+  'learning_rate_init': 0.0098722207588,
+  'tol': 0.0147962933981,
+  'validation_fraction': 0.2004956091247,
+})]
+function_evaluation time 1.458974 value -0.964523 suggestion Configuration(values={
+  'alpha': 7.49797373e-05,
+  'batch_size': 166,
+  'beta_1': 0.6171168663907,
+  'beta_2': 0.9591594344464,
+  'epsilon': 5.20239e-08,
+  'hidden_layer_sizes': 86,
+  'learning_rate_init': 0.0098722207588,
+  'tol': 0.0147962933981,
+  'validation_fraction': 0.2004956091247,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000650, current best -0.964523 at iter 5
+suggestion time taken 0.001292 iter 6 next_points [Configuration(values={
+  'alpha': 0.0286143748802,
+  'batch_size': 164,
+  'beta_1': 0.6130425895347,
+  'beta_2': 0.9713509466191,
+  'epsilon': 3.8364e-09,
+  'hidden_layer_sizes': 158,
+  'learning_rate_init': 0.0577782272623,
+  'tol': 7.54419907e-05,
+  'validation_fraction': 0.1016886660531,
+})]
+function_evaluation time 2.850330 value -0.948507 suggestion Configuration(values={
+  'alpha': 0.0286143748802,
+  'batch_size': 164,
+  'beta_1': 0.6130425895347,
+  'beta_2': 0.9713509466191,
+  'epsilon': 3.8364e-09,
+  'hidden_layer_sizes': 158,
+  'learning_rate_init': 0.0577782272623,
+  'tol': 7.54419907e-05,
+  'validation_fraction': 0.1016886660531,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000606, current best -0.964523 at iter 6
+suggestion time taken 0.001364 iter 7 next_points [Configuration(values={
+  'alpha': 0.0001067348234,
+  'batch_size': 157,
+  'beta_1': 0.5274490495425,
+  'beta_2': 0.9685473103719,
+  'epsilon': 4.40231e-08,
+  'hidden_layer_sizes': 183,
+  'learning_rate_init': 0.0723423698427,
+  'tol': 3.76943713e-05,
+  'validation_fraction': 0.2281048812996,
+})]
+function_evaluation time 3.380522 value -0.908873 suggestion Configuration(values={
+  'alpha': 0.0001067348234,
+  'batch_size': 157,
+  'beta_1': 0.5274490495425,
+  'beta_2': 0.9685473103719,
+  'epsilon': 4.40231e-08,
+  'hidden_layer_sizes': 183,
+  'learning_rate_init': 0.0723423698427,
+  'tol': 3.76943713e-05,
+  'validation_fraction': 0.2281048812996,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000702, current best -0.964523 at iter 7
+suggestion time taken 0.001371 iter 8 next_points [Configuration(values={
+  'alpha': 0.0425864311708,
+  'batch_size': 48,
+  'beta_1': 0.6006964922821,
+  'beta_2': 0.9414637072547,
+  'epsilon': 3.8509e-09,
+  'hidden_layer_sizes': 64,
+  'learning_rate_init': 0.033807716736,
+  'tol': 0.0001178208266,
+  'validation_fraction': 0.6543294183695,
+})]
+function_evaluation time 1.905603 value -0.919275 suggestion Configuration(values={
+  'alpha': 0.0425864311708,
+  'batch_size': 48,
+  'beta_1': 0.6006964922821,
+  'beta_2': 0.9414637072547,
+  'epsilon': 3.8509e-09,
+  'hidden_layer_sizes': 64,
+  'learning_rate_init': 0.033807716736,
+  'tol': 0.0001178208266,
+  'validation_fraction': 0.6543294183695,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000695, current best -0.964523 at iter 8
+suggestion time taken 0.002074 iter 9 next_points [Configuration(values={
+  'alpha': 0.9434437996226,
+  'batch_size': 170,
+  'beta_1': 0.6958945132182,
+  'beta_2': 0.900597163894,
+  'epsilon': 4.979976e-07,
+  'hidden_layer_sizes': 119,
+  'learning_rate_init': 0.0026921667816,
+  'tol': 0.0036717436775,
+  'validation_fraction': 0.1852718482779,
+})]
+function_evaluation time 2.705300 value -0.969384 suggestion Configuration(values={
+  'alpha': 0.9434437996226,
+  'batch_size': 170,
+  'beta_1': 0.6958945132182,
+  'beta_2': 0.900597163894,
+  'epsilon': 4.979976e-07,
+  'hidden_layer_sizes': 119,
+  'learning_rate_init': 0.0026921667816,
+  'tol': 0.0036717436775,
+  'validation_fraction': 0.1852718482779,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000687, current best -0.969384 at iter 9
+suggestion time taken 0.002029 iter 10 next_points [Configuration(values={
+  'alpha': 0.131258038267,
+  'batch_size': 51,
+  'beta_1': 0.7567828634273,
+  'beta_2': 0.9047147369787,
+  'epsilon': 8.300548e-07,
+  'hidden_layer_sizes': 156,
+  'learning_rate_init': 1.09253112e-05,
+  'tol': 0.014156362982,
+  'validation_fraction': 0.3284594966888,
+})]
+function_evaluation time 2.858359 value -0.104397 suggestion Configuration(values={
+  'alpha': 0.131258038267,
+  'batch_size': 51,
+  'beta_1': 0.7567828634273,
+  'beta_2': 0.9047147369787,
+  'epsilon': 8.300548e-07,
+  'hidden_layer_sizes': 156,
+  'learning_rate_init': 1.09253112e-05,
+  'tol': 0.014156362982,
+  'validation_fraction': 0.3284594966888,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000668, current best -0.969384 at iter 10
+suggestion time taken 0.002090 iter 11 next_points [Configuration(values={
+  'alpha': 0.0029970600368,
+  'batch_size': 155,
+  'beta_1': 0.9378187925562,
+  'beta_2': 0.9631194086034,
+  'epsilon': 6.4669e-09,
+  'hidden_layer_sizes': 53,
+  'learning_rate_init': 0.0006308103484,
+  'tol': 1.03993258e-05,
+  'validation_fraction': 0.3367142753875,
+})]
+function_evaluation time 4.586161 value -0.952683 suggestion Configuration(values={
+  'alpha': 0.0029970600368,
+  'batch_size': 155,
+  'beta_1': 0.9378187925562,
+  'beta_2': 0.9631194086034,
+  'epsilon': 6.4669e-09,
+  'hidden_layer_sizes': 53,
+  'learning_rate_init': 0.0006308103484,
+  'tol': 1.03993258e-05,
+  'validation_fraction': 0.3367142753875,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000639, current best -0.969384 at iter 11
+suggestion time taken 0.002003 iter 12 next_points [Configuration(values={
+  'alpha': 0.0008905828441,
+  'batch_size': 96,
+  'beta_1': 0.8810234959941,
+  'beta_2': 0.9766241085557,
+  'epsilon': 3.367027e-07,
+  'hidden_layer_sizes': 74,
+  'learning_rate_init': 0.0142289979647,
+  'tol': 5.60014246e-05,
+  'validation_fraction': 0.1744693971577,
+})]
+function_evaluation time 1.627829 value -0.961738 suggestion Configuration(values={
+  'alpha': 0.0008905828441,
+  'batch_size': 96,
+  'beta_1': 0.8810234959941,
+  'beta_2': 0.9766241085557,
+  'epsilon': 3.367027e-07,
+  'hidden_layer_sizes': 74,
+  'learning_rate_init': 0.0142289979647,
+  'tol': 5.60014246e-05,
+  'validation_fraction': 0.1744693971577,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000638, current best -0.969384 at iter 12
+suggestion time taken 0.001878 iter 13 next_points [Configuration(values={
+  'alpha': 0.0465283440605,
+  'batch_size': 25,
+  'beta_1': 0.5600754870567,
+  'beta_2': 0.9025409639513,
+  'epsilon': 2.801403e-07,
+  'hidden_layer_sizes': 180,
+  'learning_rate_init': 0.0010702890129,
+  'tol': 2.82110876e-05,
+  'validation_fraction': 0.1920837884328,
+})]
+function_evaluation time 8.291842 value -0.970775 suggestion Configuration(values={
+  'alpha': 0.0465283440605,
+  'batch_size': 25,
+  'beta_1': 0.5600754870567,
+  'beta_2': 0.9025409639513,
+  'epsilon': 2.801403e-07,
+  'hidden_layer_sizes': 180,
+  'learning_rate_init': 0.0010702890129,
+  'tol': 2.82110876e-05,
+  'validation_fraction': 0.1920837884328,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000615, current best -0.970775 at iter 13
+suggestion time taken 0.001981 iter 14 next_points [Configuration(values={
+  'alpha': 0.450785916651,
+  'batch_size': 82,
+  'beta_1': 0.8615359689304,
+  'beta_2': 0.9306098314276,
+  'epsilon': 1.254317e-07,
+  'hidden_layer_sizes': 57,
+  'learning_rate_init': 0.0068504635782,
+  'tol': 0.0162052204066,
+  'validation_fraction': 0.5216006936732,
+})]
+function_evaluation time 1.013443 value -0.949226 suggestion Configuration(values={
+  'alpha': 0.450785916651,
+  'batch_size': 82,
+  'beta_1': 0.8615359689304,
+  'beta_2': 0.9306098314276,
+  'epsilon': 1.254317e-07,
+  'hidden_layer_sizes': 57,
+  'learning_rate_init': 0.0068504635782,
+  'tol': 0.0162052204066,
+  'validation_fraction': 0.5216006936732,
+})
+Failure in optimizer observe. Ignoring these observations.
+list indices must be integers or slices, not str
+Traceback (most recent call last):
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/bayesmark/experiment.py", line 175, in run_study
+    optimizer.observe(next_points, eval_list)
+  File "/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions/dehb/optimizer.py", line 88, in observe
+    self.dehb.tell(X, y)
+  File "/home/ryedida/smoothness-hpo/.venv/lib/python3.12/site-packages/dehb/optimizers/dehb.py", line 1007, in tell
+    fitness, cost = float(result["fitness"]), float(result["cost"])
+                          ~~~~~~^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+observation time 0.000659, current best -0.970775 at iter 14
+saving meta data: {'args': {'--uuid': '70c46e8e48125c7d9eed590b3c36c596', '-db-root': '/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/output', '--opt-root': '/home/ryedida/smoothness-hpo/bbo_challenge_starter_kit/example_submissions', '--data-root': None, '--db': 'run_20241104_045201', '--opt': 'dehb', '--data': 'digits', '--classifier': 'MLP-adam', '--metric': 'acc', '--calls': 15, '--suggestions': 1, '--jobs-file': None, '--verbose': False, 'dry_run': False, 'rev': 'a376313', 'opt_rev': '0.0.8'}, 'signature': ([{'alpha': 0.019628224813442792, 'batch_size': 182, 'beta_1': 0.9410202200271762, 'beta_2': 0.9998021557676793, 'epsilon': 1.8662266976518e-08, 'hidden_layer_sizes': 147, 'learning_rate_init': 0.0005627932047415167, 'tol': 0.03690557729213761, 'validation_fraction': 0.8846827852548593}, {'alpha': 0.0019982467392329444, 'batch_size': 200, 'beta_1': 0.919111482530466, 'beta_2': 0.9998488260436156, 'epsilon': 5.981221901152555e-07, 'hidden_layer_sizes': 61, 'learning_rate_init': 2.2310905607443014e-05, 'tol': 1.2046852412030316e-05, 'validation_fraction': 0.8117896445826539}, {'alpha': 0.46659545670218433, 'batch_size': 219, 'beta_1': 0.9889789783750891, 'beta_2': 0.9999896868093284, 'epsilon': 2.4234724484675948e-08, 'hidden_layer_sizes': 167, 'learning_rate_init': 2.972334644335654e-05, 'tol': 0.0036281404040243792, 'validation_fraction': 0.17260651658522078}, {'alpha': 4.656005689076002, 'batch_size': 135, 'beta_1': 0.870503881627747, 'beta_2': 0.9948873266941017, 'epsilon': 2.1023308743480125e-07, 'hidden_layer_sizes': 118, 'learning_rate_init': 0.0018781738757161913, 'tol': 1.1889379831773004e-05, 'validation_fraction': 0.6264327093752792}, {'alpha': 0.04705159350400542, 'batch_size': 158, 'beta_1': 0.9870884262730957, 'beta_2': 0.9999596874382349, 'epsilon': 1.1981845126013875e-08, 'hidden_layer_sizes': 116, 'learning_rate_init': 0.00617340520407431, 'tol': 1.741413418158619e-05, 'validation_fraction': 0.6754299026638921}], [-0.21081107239643826, -0.1295489740611692, -0.27999177313201706, -0.9422522260936896, -0.9332050909794812])}
+saving results
+saving timing
+saving suggest log
+done
