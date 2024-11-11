@@ -96,6 +96,8 @@ def run(data: Data, config: Configuration):
         data.x_train = ae.encode(np.array(data.x_train))
         data.x_test = ae.encode(np.array(data.x_test))
 
+        del ae
+
     learner = FeedforwardDL(n_layers=config['n_layers'], n_units=config['n_units'],
                             weighted=True, wfo=config['wfo'],
                             smote=config['smote'], n_epochs=100)
@@ -109,6 +111,8 @@ def run(data: Data, config: Configuration):
     m.add_metrics(['pd-pf', 'pd', 'pf', 'prec', 'auc'])
     results = m.get_metrics()
     print(f'Results: {results}')
+
+    del learner
     return results
 
 
@@ -119,7 +123,7 @@ def run_all_experiments():
     file_number = os.getenv('SLURM_JOB_ID') or random.randint(1, 10000)
     file = open(f'runs-{file_number}.txt', 'a')
 
-    for dataset in datasets:
+    for dataset in datasets[-2:]:
         print(f'{dataset}:', file=file)
         data_orig = load_data(dataset)
 
@@ -139,7 +143,7 @@ def run_all_experiments():
 
         # 20 repeats
         results = []
-        for _ in range(20):
+        for _ in range(3):
             dehb = DEHB(
                 f=objective,
                 cs=hpo_space,
@@ -148,7 +152,7 @@ def run_all_experiments():
                 n_workers=1,
                 output_path="./tmp"
             )
-            dehb.run(fevals=50)
+            dehb.run(fevals=30)
 
         print('Median results:', file=file)
         print(np.median(results, axis=0), file=file)
