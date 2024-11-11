@@ -163,7 +163,7 @@ def run_all_experiments():
                 run_pipeline=partial(objective, data_orig),
                 pipeline_space=hpo_space,
                 root_directory=f"priorband_{dataset}_{i}",
-                max_evaluations_total=30
+                max_evaluations_total=50
             )
 
     print('Done.')
