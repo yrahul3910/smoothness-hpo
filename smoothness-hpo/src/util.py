@@ -1,20 +1,22 @@
 import random
-from ConfigSpace import ConfigurationSpace
+
 import numpy as np
 import pandas as pd
-from scipy.spatial import KDTree
-from scipy.stats import mode
-from raise_utils.transforms import Transform
-from raise_utils.transforms.remove_labels import remove_labels
-from raise_utils.learners import Autoencoder
+
+from ConfigSpace import ConfigurationSpace
 from raise_utils.data import Data, DataLoader
 from raise_utils.hooks import Hook
+from raise_utils.learners import Autoencoder
 from raise_utils.metrics import ClassificationMetrics
+from raise_utils.transforms import Transform
+from raise_utils.transforms.remove_labels import remove_labels
+from scipy.spatial import KDTree
+from scipy.stats import mode
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.models import Sequential
 from tensorflow.keras import backend as K
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.utils import to_categorical
 
 
 # Dataset filenames
@@ -33,10 +35,10 @@ defect_file_dic = {'ivy':     ['ivy-1.1.csv', 'ivy-1.4.csv', 'ivy-2.0.csv'],
 
 def load_defect_data(dataset: str) -> Data:
     def _binarize(x, y): y[y > 1] = 1
-    base_path = '../DODGE Data/defect/'
+    base_path = '../../DODGE Data/defect/'
     dataset = DataLoader.from_files(
         base_path=base_path, files=defect_file_dic[dataset], hooks=[Hook('binarize', _binarize)])
-    
+
     return dataset
 
 
@@ -56,12 +58,12 @@ def run_experiment(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample
         y_pred = (model.predict(data.x_test) > 0.5).astype('int32')
     else:
         y_pred = np.argmax(model.predict(data.x_test), axis=-1)
-    
+
     if n_class > 2 and len(data.y_test) > 1:
         data.y_test = np.argmax(data.y_test, axis=1)
 
     metrics = ClassificationMetrics(data.y_test, y_pred)
-    metrics.add_metrics(['accuracy'])
+    metrics.add_metrics(['f1', 'pd', 'pf', 'prec'])
     return metrics.get_metrics()
 
 
@@ -91,7 +93,7 @@ def get_smoothness(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample
         activ = np.linalg.norm(func([xb]))
         if activ > Kz:
             Kz = activ
-        
+
         assert len(model.layers[-1].weights[0].shape) == 2
         W = np.linalg.norm(model.layers[-1].weights[0])
         if W > Kw:
@@ -127,7 +129,7 @@ def get_many_random_hyperparams(options: dict, n: int) -> list:
 
 
 def hp_space_to_configspace(hp_space: dict) -> ConfigurationSpace:
-    return ConfigurationSpace(hp_space)   
+    return ConfigurationSpace(hp_space)
 
 
 def remove_labels_legacy(data: Data) -> Data:
@@ -147,7 +149,7 @@ def remove_labels_legacy(data: Data) -> Data:
 
     # Impute data
     tree = KDTree(x_rest)
-    _, idx = tree.query(x_lost, k = int(np.sqrt(np.sqrt(len(x_rest)))), p=1)
+    _, idx = tree.query(x_lost, k=int(np.sqrt(np.sqrt(len(x_rest)))), p=1)
     y_lost = mode(y_rest[idx], axis=1)[0]
     y_lost = y_lost.reshape((y_lost.shape[0], y_lost.shape[-1]))
 
@@ -219,7 +221,7 @@ def get_model(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample: boo
         transform = Transform('wfo')
         transform.apply(data)
         print('[get_model] Finished running wfo')
-    
+
     if smote:
         print('[get_model] Running smote')
         transform = Transform('smote')
@@ -233,15 +235,15 @@ def get_model(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample: boo
             data.y_train = to_categorical(data.y_train, n_class)
 
         print('[get_model] Finished running smote')
-    
+
     for _ in range(n_layers):
         learner.add(Dense(n_units, activation='relu'))
-    
+
     if n_class == 2:
         learner.add(Dense(1, activation='sigmoid'))
     else:
         learner.add(Dense(n_class, activation='softmax'))
-    
+
     learner.compile(loss='binary_crossentropy' if n_class == 2 else 'categorical_crossentropy', optimizer='sgd')
 
     return learner, data
@@ -295,13 +297,13 @@ def load_issue_lifetime_prediction_data(filename: str, n_classes: int) -> Data:
     _df['s72'] = df['s7'].apply(lambda x: eval(x)[2])
     _df['s90'] = df['s9'].apply(lambda x: eval(x)[0])
     _df['s91'] = df['s9'].apply(lambda x: eval(x)[1])
-    
+
     if filename == 'firefox':
         _df['s92'] = df['s9'].apply(lambda x: eval(x)[2])
-    
+
     x = _df.drop('y', axis=1)
     y = _df['y']
-    
+
     data = Data(*train_test_split(x, y))
     data = split_data(filename, data, n_classes)
     return data
