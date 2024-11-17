@@ -31,7 +31,7 @@ class DEHBOptimizer(AbstractOptimizer):
         cs = ConfigurationSpace()
         for key, config in api_config.items():
             if config["type"] == "int":
-                cs.add(UniformIntegerHyperparameter(key, config["range"], log=config["space"] in ["log", "logit"]))
+                cs.add(UniformIntegerHyperparameter(key, *config["range"], log=config["space"] in ["log", "logit"]))
             if config["type"] == "float":
                 cs.add(UniformFloatHyperparameter(key, config["range"][0], config["range"][1]))
             if config["type"] == "bool":
@@ -52,7 +52,8 @@ class DEHBOptimizer(AbstractOptimizer):
             f=None,
             cs=cs,
             min_fidelity=1,
-            max_fidelity=10
+            max_fidelity=10,
+            n_workers=1
         )
 
     def suggest(self, n_suggestions=1):
@@ -70,7 +71,7 @@ class DEHBOptimizer(AbstractOptimizer):
             function. Each suggestion is a dictionary where each key
             corresponds to a parameter being optimized.
         """
-        return self.dehb.ask()
+        return [self.dehb.ask()["config"]]
 
     def observe(self, X, y):
         """Feed an observation back.

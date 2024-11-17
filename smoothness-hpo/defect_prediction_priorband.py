@@ -3,6 +3,7 @@ import random
 import time
 
 from copy import deepcopy
+from functools import partial
 
 from src.util import defect_file_dic, load_defect_data, run_experiment
 
@@ -26,18 +27,15 @@ hpo_space = {
 file_number = os.getenv('SLURM_JOB_ID') or random.randint(1, 10000)
 for filename in defect_file_dic:
     file = open(f'runs-{file_number}.txt', 'a')
-    print(f'{filename}:', file=file, flush=True)
+    print(f'{filename}:', file=file)
 
     data_orig = load_defect_data(filename)
 
-    def objective(**config) -> dict:
+    def objective(data_orig, **config) -> dict:
         start = time.time()
         data = deepcopy(data_orig)
-        results = run_experiment(data, 2, **config)
+        f1 = run_experiment(data, 2, **config)[0]
         end = time.time()
-
-        print(f"Result: {results} | Time: {end - start}", file=file, flush=True)
-        f1 = results[0]
 
         return {
             "loss": -f1,
@@ -48,8 +46,8 @@ for filename in defect_file_dic:
         }
 
     neps.run(
-        run_pipeline=objective,
+        run_pipeline=partial(objective, data_orig),
         pipeline_space=hpo_space,
-        root_directory=f"priorband_{filename}",
+        root_directory="priorband",
         max_evaluations_total=30
     )

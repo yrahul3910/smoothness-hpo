@@ -13,21 +13,20 @@
 # limitations under the License.
 """Perform analysis to compare different optimizers across problems.
 """
-import json
 import logging
 import warnings
-from collections import OrderedDict
 
-import numpy as np
-import pandas as pd
-import xarray as xr
-import scipy.stats as stats
-from statsmodels.stats.multitest import multipletests
+from collections import OrderedDict
 
 import bayesmark.constants as cc
 import bayesmark.quantiles as qt
 import bayesmark.xr_util as xru
-from bayesmark.cmd_parse import CmdArgs, general_parser, parse_args, serializable_dict
+import numpy as np
+import pandas as pd
+import scipy.stats as stats
+import xarray as xr
+
+from bayesmark.cmd_parse import CmdArgs, general_parser, parse_args
 from bayesmark.constants import (
     ITER,
     LB_MEAN,
@@ -52,8 +51,9 @@ from bayesmark.experiment_aggregate import validate_agg_perf
 from bayesmark.experiment_baseline import do_baseline
 from bayesmark.np_util import cummin, linear_rescale
 from bayesmark.serialize import XRSerializer
-from bayesmark.signatures import analyze_signature_pair
 from bayesmark.stats import t_EB
+from statsmodels.stats.multitest import multipletests
+
 
 # Mathematical settings
 EVAL_Q = 0.5  # Evaluate based on median loss across n_trials
@@ -82,7 +82,7 @@ def run_stats(data):
     p_values = np.zeros((num_groups, num_groups))
 
     for i in range(num_groups):
-        for j in range(i+1, num_groups):
+        for j in range(i + 1, num_groups):
             _, p = stats.mannwhitneyu(
                 data[groups[i]], data[groups[j]], alternative='two-sided')
             p_values[i, j] = p

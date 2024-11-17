@@ -1,17 +1,17 @@
 from typing import Tuple
-import os
 
 import numpy as np
-from raise_utils.transforms.wfo import fuzz_data
-from raise_utils.transforms import Transform
+
+from imblearn.over_sampling import SMOTE
 from raise_utils.data import Data
 from raise_utils.learners import Autoencoder
-from imblearn.over_sampling import SMOTE
+from raise_utils.transforms import Transform
+from raise_utils.transforms.remove_labels import remove_labels
+from raise_utils.transforms.wfo import fuzz_data
 from sklearn.metrics import accuracy_score
-
 from smoothness.configs import learner_configs
-from smoothness.hpo.bohb import BohbHPO
-from smoothness.data import load_issue_lifetime_prediction_data, remove_labels_legacy, remove_labels
+from smoothness.data import load_issue_lifetime_prediction_data, remove_labels_legacy
+from smoothness.hpo.smoothness import SmoothnessHPO
 from smoothness.hpo.util import get_learner
 
 import ses
@@ -23,10 +23,11 @@ config_space = {
     'ultrasample': [False, True],
     'smooth': [False, True],
 }
+clf = 'ff'
 
 
 def data_fn(config: dict) -> Tuple[np.array, np.array, np.array, np.array]:
-    n_class = 3
+    n_class = 2
     x_train, x_test, y_train, y_test = load_issue_lifetime_prediction_data('chromium', n_class)
     x_train = np.array(x_train)
     x_test = np.array(x_test)
@@ -95,8 +96,12 @@ def query_fn(config: dict, seed: int = 42, budget: int = 100):
     if len(y_test.shape) > 1:
         y_test = np.argmax(y_test, axis=1)
 
-    learner = get_learner('nb', config)
-    learner.fit(x_train, y_train)
+    learner = get_learner(clf, config)
+    if clf == 'ff':
+        learner.set_data(x_train, y_train, x_test, y_test)
+        learner.fit()
+    else:
+        learner.fit(x_train, y_train)
     preds = learner.predict(x_test)
 
     if len(y_test.shape) == 2:

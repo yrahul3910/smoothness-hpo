@@ -1,4 +1,5 @@
 import random
+
 from typing import Union
 
 from raise_utils.learners import FeedforwardDL
@@ -58,3 +59,4 @@ def get_learner(learner: str, config: dict) -> Union[DecisionTreeClassifier, Log
         )
     else:
         raise ValueError(f'Unknown learner: {learner}')
+

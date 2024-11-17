@@ -1,14 +1,15 @@
 import time
-from typing import Tuple, Callable, Union
+
 from functools import singledispatch
+from typing import Callable, Tuple, Union
 
 from smoothness.hpo.base import BaseHPO
-from smoothness.hpo.util import get_many_random_hyperparams, get_learner
+from smoothness.hpo.util import get_learner, get_many_random_hyperparams
 
 import numpy as np
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
-from sklearn.tree import DecisionTreeClassifier
 
 
 @singledispatch
@@ -27,7 +28,7 @@ def _(learner: GaussianNB, x_train: np.array, y_train: np.array) -> float:
         y = y_train.copy()
     else:
         y = np.argmax(y_train, axis=1)
-    
+
     # First, we need to compute mu
     mu0 = np.mean(x_train[y == 0], axis=0)
     mu1 = np.mean(x_train[y == 1], axis=0)
@@ -107,12 +108,12 @@ class SmoothnessHPO(BaseHPO):
                 x_train, _, y_train, _ = self.data_fn(config)
                 smoothness.append(get_smoothness(get_learner(self.learner, config), x_train, y_train))
 
-            best_betas, best_configs = zip(*sorted(zip(smoothness, configs), reverse=True, key=lambda x: x[0]))
+            best_betas, best_configs = zip(*sorted(zip(smoothness, configs, strict=False), reverse=True, key=lambda x: x[0]), strict=False)
             best_configs = list(best_configs[:keep_configs])
 
             best_score = (-1,)
 
-            for beta, config in zip(best_betas, best_configs):
+            for beta, config in zip(best_betas, best_configs, strict=False):
                 score = self.query_fn(config)
                 print('Beta:', beta, ' | Score:', score)
 
