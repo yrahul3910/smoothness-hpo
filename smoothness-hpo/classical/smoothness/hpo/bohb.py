@@ -1,11 +1,12 @@
 import time
+
 from typing import Tuple
+
+from smoothness.hpo.base import BaseHPO
 
 from ConfigSpace import ConfigurationSpace
 from smac import MultiFidelityFacade, Scenario
 from smac.intensifier.hyperband import Hyperband
-
-from smoothness.hpo.base import BaseHPO
 
 
 class BohbHPO(BaseHPO):

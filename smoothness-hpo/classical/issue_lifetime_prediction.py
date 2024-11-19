@@ -1,3 +1,5 @@
+import time
+
 from typing import Tuple
 
 import numpy as np
@@ -14,7 +16,6 @@ from smoothness.data import load_issue_lifetime_prediction_data, remove_labels_l
 from smoothness.hpo.smoothness import SmoothnessHPO
 from smoothness.hpo.util import get_learner
 
-import ses
 
 config_space = {
     'preprocessor': ['normalize', 'standardize', 'minmax', 'maxabs', 'robust'],
@@ -86,7 +87,8 @@ def data_fn(config: dict) -> Tuple[np.array, np.array, np.array, np.array]:
     return x_train, x_test, y_train, y_test
 
 
-def query_fn(config: dict, seed: int = 42, budget: int = 100):
+def query_fn(config: dict, seed: int = 42, budget: int = 100, **kwargs):
+    start = time.time()
     x_train, x_test, y_train, y_test = data_fn(config)
 
     # Comment the below if statements for MulticlassDL.
@@ -110,29 +112,20 @@ def query_fn(config: dict, seed: int = 42, budget: int = 100):
     if len(preds.shape) == 2:
         preds = np.argmax(preds, axis=1)
 
-    return accuracy_score(y_test, preds)
+    end = time.time()
+    # NOTE: Only for DEHB: for all others, return the commented out version.
+    return {
+        "fitness": -accuracy_score(y_test, preds),
+        "cost": end - start
+    }
+
+    # return accuracy_score(y_test, preds)
 
 
-n_jobs = 20
-for learner in ['nb']:
+for learner in [clf]:
     hpo_space = {**config_space, **learner_configs[learner]}
 
-    hpo = BohbHPO(hpo_space, learner, query_fn)
+    hpo = SmoothnessHPO(hpo_space, learner, query_fn, data_fn)
 
-    try:
-        scores, time = hpo.run(1, 30)
-
-        # Notify me
-        with open('.status', 'r') as f:
-            lines = int(f.readline())
-
-        if lines + 1 >= n_jobs:
-            ses.send_email('ARC Success Notification', 'All jobs completed.')
-        else:
-            with open('.status', 'w') as f:
-                f.write(str(lines + 1))
-
-        print(f'Accuracy: {np.median(scores)}\nTime: {time}')
-    except:
-        ses.send_email('ARC Failure Notification', f'Run {os.getenv("SLURM_JOB_ID")} failed.')
-        n_jobs -= 1
+    scores, _time = hpo.run(1, 30)
+    print(f'Accuracy: {np.median(scores)}\nTime: {_time}')
