@@ -1,5 +1,7 @@
 # $\beta-$smoothness results using classical learners
 
+**Note:** Due to a stupid naming convention, this actually has some feedforward network code/results as well. Maybe some day I'll refactor things around.
+
 ## File descriptions
 
 * `defect_prediction.py`: Defect prediction code for classical learners.
