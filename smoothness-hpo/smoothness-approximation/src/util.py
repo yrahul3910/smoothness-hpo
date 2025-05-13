@@ -1,20 +1,23 @@
 import random
+
 import numpy as np
 import pandas as pd
-from scipy.spatial import KDTree
-from scipy.stats import mode
-from raise_utils.transforms import Transform
-from raise_utils.learners import Autoencoder
+import pyximport
+
+from keras import backend as K
+from keras.layers import Dense
+from keras.models import Sequential
+from keras.utils import to_categorical
 from raise_utils.data import Data, DataLoader
 from raise_utils.hooks import Hook
+from raise_utils.learners import Autoencoder
 from raise_utils.metrics import ClassificationMetrics
+from raise_utils.transforms import Transform
+from scipy.spatial import KDTree
+from scipy.stats import mode
+from sklearn.cluster import HDBSCAN
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.models import Sequential
-from tensorflow.keras import backend as K
-from tensorflow.keras.layers import Dense
-import pyximport
+
 
 pyximport.install()
 
@@ -22,14 +25,14 @@ from .remove_labels import remove_labels
 
 
 # Dataset filenames
-defect_file_dic = {'ivy':     ['ivy-1.1.csv', 'ivy-1.4.csv', 'ivy-2.0.csv'],
+defect_file_dic = {  # 'ivy':     ['ivy-1.1.csv', 'ivy-1.4.csv', 'ivy-2.0.csv'],
             'lucene':  ['lucene-2.0.csv', 'lucene-2.2.csv', 'lucene-2.4.csv'],
             'poi':     ['poi-1.5.csv', 'poi-2.0.csv', 'poi-2.5.csv', 'poi-3.0.csv'],
             'synapse': ['synapse-1.0.csv', 'synapse-1.1.csv', 'synapse-1.2.csv'],
             'velocity': ['velocity-1.4.csv', 'velocity-1.5.csv', 'velocity-1.6.csv'],
             'camel': ['camel-1.0.csv', 'camel-1.2.csv', 'camel-1.4.csv', 'camel-1.6.csv'],
             'jedit': ['jedit-3.2.csv', 'jedit-4.0.csv', 'jedit-4.1.csv', 'jedit-4.2.csv', 'jedit-4.3.csv'],
-            'log4j': ['log4j-1.0.csv', 'log4j-1.1.csv', 'log4j-1.2.csv'],
+    #        'log4j': ['log4j-1.0.csv', 'log4j-1.1.csv', 'log4j-1.2.csv'],
             'xalan': ['xalan-2.4.csv', 'xalan-2.5.csv', 'xalan-2.6.csv', 'xalan-2.7.csv'],
             'xerces': ['xerces-1.2.csv', 'xerces-1.3.csv', 'xerces-1.4.csv']
             }
@@ -37,11 +40,11 @@ defect_file_dic = {'ivy':     ['ivy-1.1.csv', 'ivy-1.4.csv', 'ivy-2.0.csv'],
 
 def load_defect_data(dataset: str):
     def _binarize(x, y): y[y > 1] = 1
-    base_path = '../DODGE Data/defect/'
-    dataset = DataLoader.from_files(
+    base_path = 'DODGE Data/defect/'
+    loaded_dataset = DataLoader.from_files(
         base_path=base_path, files=defect_file_dic[dataset], hooks=[Hook('binarize', _binarize)])
-    
-    return dataset
+
+    return loaded_dataset
 
 
 def run_experiment(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample: bool, smooth: bool, n_units: int,
@@ -60,7 +63,7 @@ def run_experiment(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample
         y_pred = (model.predict(data.x_test) > 0.5).astype('int32')
     else:
         y_pred = np.argmax(model.predict(data.x_test), axis=-1)
-    
+
     if n_class > 2 and len(data.y_test) > 1:
         data.y_test = np.argmax(data.y_test, axis=1)
 
@@ -79,6 +82,32 @@ def get_approx_smoothness(data: Data, *args, **kwargs):
 
     return get_smoothness(data, *args, **kwargs)
 
+
+def get_smoothness_mle_approx(data: Data, model):
+    train_size = len(data.x_train)
+    subset_size = max(100, train_size // 10)
+    subset_idx = np.random.choice(range(train_size), subset_size)
+    subset = data.x_train[subset_idx, :]
+
+    dbscan = HDBSCAN()
+    cluster_idx = dbscan.fit_predict(subset)
+
+    clusters = {}
+    for i, c in enumerate(cluster_idx):
+        if c != -1:
+            clusters[c] = clusters.get(c, []) + [i]
+
+    clusters = {k: v for k, v in clusters.items() if len(v) >= 3}
+    print(max(clusters))
+    smoothness = 0.0
+    for cluster in clusters.values():
+        point = data.x_train[cluster[0]]
+        eps = min([0.1] + [np.linalg.norm(point - x) / 2 for x in cluster])
+        f1, f2, f3 = model.predict_proba([point, point + eps, point - eps])
+        f1, f2, f3 = f1[1], f2[1], f3[1]
+        smoothness = max(smoothness, (f2 + f3 - 2 * f1) / eps ** 2)
+
+    return smoothness
 
 
 def get_smoothness(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample: bool, smooth: bool, n_units: int,
@@ -107,7 +136,7 @@ def get_smoothness(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample
         activ = np.linalg.norm(func([xb]))
         if activ > Kz:
             Kz = activ
-        
+
         assert len(model.layers[-1].weights[0].shape) == 2
         W = np.linalg.norm(model.layers[-1].weights[0])
         if W > Kw:
@@ -159,7 +188,7 @@ def remove_labels_legacy(data: Data) -> Data:
 
     # Impute data
     tree = KDTree(x_rest)
-    _, idx = tree.query(x_lost, k = int(np.sqrt(np.sqrt(len(x_rest)))), p=1)
+    _, idx = tree.query(x_lost, k=int(np.sqrt(np.sqrt(len(x_rest)))), p=1)
     y_lost = mode(y_rest[idx], axis=1)[0]
     y_lost = y_lost.reshape((y_lost.shape[0], y_lost.shape[-1]))
 
@@ -231,7 +260,7 @@ def get_model(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample: boo
         transform = Transform('wfo')
         transform.apply(data)
         print('[get_model] Finished running wfo')
-    
+
     if smote:
         print('[get_model] Running smote')
         transform = Transform('smote')
@@ -245,15 +274,15 @@ def get_model(data: Data, n_class: int, wfo: bool, smote: bool, ultrasample: boo
             data.y_train = to_categorical(data.y_train, n_class)
 
         print('[get_model] Finished running smote')
-    
+
     for _ in range(n_layers):
         learner.add(Dense(n_units, activation='relu'))
-    
+
     if n_class == 2:
         learner.add(Dense(1, activation='sigmoid'))
     else:
         learner.add(Dense(n_class, activation='softmax'))
-    
+
     learner.compile(loss='binary_crossentropy' if n_class == 2 else 'categorical_crossentropy', optimizer='sgd')
 
     return learner, data
@@ -307,13 +336,13 @@ def load_issue_lifetime_prediction_data(filename: str, n_classes: int) -> Data:
     _df['s72'] = df['s7'].apply(lambda x: eval(x)[2])
     _df['s90'] = df['s9'].apply(lambda x: eval(x)[0])
     _df['s91'] = df['s9'].apply(lambda x: eval(x)[1])
-    
+
     if filename == 'firefox':
         _df['s92'] = df['s9'].apply(lambda x: eval(x)[2])
-    
+
     x = _df.drop('y', axis=1)
     y = _df['y']
-    
+
     data = Data(*train_test_split(x, y))
     data = split_data(filename, data, n_classes)
     return data
